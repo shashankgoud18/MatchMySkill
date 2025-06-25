@@ -70,7 +70,7 @@ const [jobDescription, setJobDescription] = useState('');
       // formData.append('userId', 'someUserId');
       // formData.append('jobDescription', jobDescription);
 
-      fetch('http://localhost:5000/api/upload/resume', {
+      fetch('https://matchmyskill-backend.onrender.com/upload', {
         method: 'POST',
         body: formData,
       })
