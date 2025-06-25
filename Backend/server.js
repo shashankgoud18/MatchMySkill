@@ -28,7 +28,11 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage });
 
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/upload', upload.single('resume'), (req, res) => {
+
+  console.log("Received file:", req.file);
+console.log("Extracted text:", req.body.extractedText);
+
   res.json({
     message: 'Upload successful',
     url: req.file.path, // this is the Cloudinary URL
