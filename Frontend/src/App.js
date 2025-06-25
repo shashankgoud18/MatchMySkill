@@ -6,7 +6,9 @@ import html2pdf from 'html2pdf.js';
 
 
 const ResumeGapAnalyzer = () => {
-  const GEMINI_API_KEY = 'AIzaSyDR8vod7jqk5Pzbx2Um2844ehX5cAkjEmQ';
+  //const GEMINI_API_KEY = 'AIzaSyDR8vod7jqk5Pzbx2Um2844ehX5cAkjEmQ';
+  const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY || '';
+  console.log('Gemini API Key:', GEMINI_API_KEY);
 
 
   const [currentPage, setCurrentPage] = useState('home');
