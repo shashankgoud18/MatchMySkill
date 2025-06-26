@@ -39,28 +39,28 @@ const [jobDescription, setJobDescription] = useState('');
     const file = event.target.files[0];
     const supportedTypes = [
       'application/pdf',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'text/plain'
-  ];
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'text/plain'
+    ];
   
-  if (file && supportedTypes.includes(file.type)) {
-    setUploadedFile(file);
-    setExtractionProgress(0);
-    showToast('Processing your resume...', 'info');
+    if (file && supportedTypes.includes(file.type)) {
+      setUploadedFile(file);
+      setExtractionProgress(0);
+      showToast('Processing your resume...', 'info');
     
-    try {
-      let extractedContent;
-      if (file.type === 'application/pdf') {
-        extractedContent = await extractPDFContent(file);
-      } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-        extractedContent = await extractDOCXContent(file);
-      } else {
-        extractedContent = await extractTXTContent(file);
-      }
+      try {
+        let extractedContent;
+        if (file.type === 'application/pdf') {
+          extractedContent = await extractPDFContent(file);
+        } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+          extractedContent = await extractDOCXContent(file);
+        } else {
+          extractedContent = await extractTXTContent(file);
+        }
       
-      setResumeText(extractedContent);
-      setExtractionProgress(100);
-      showToast('Resume content extracted successfully!');
+        setResumeText(extractedContent);
+        setExtractionProgress(100);
+        showToast('Resume content extracted successfully!');
 
             // --- ADD THIS BLOCK TO SEND TO BACKEND ---
       const formData = new FormData();
@@ -118,173 +118,334 @@ const [jobDescription, setJobDescription] = useState('');
     </div>
   );
 
-const HomePage = () => {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 relative overflow-hidden">
-        {/* Animated background elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
-        </div>
+// const HomePage = () => {
+//     return (
+//       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 relative overflow-hidden">
+//         {/* Animated background elements */}
+//         <div className="absolute inset-0">
+//           <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+//           <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+//           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+//         </div>
 
-        {/* Navigation */}
-        <nav className="relative z-10 border-b border-white/10 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              {/* <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-3 rounded-2xl shadow-lg">
-                <Brain className="text-white" size={28} />
-              </div> */}
-            <div className="rounded-2xl overflow-hidden ">
-  <img 
-  src="/logo4.png" 
-  alt="Logo" 
-  className="w-24 h-24 object-contain"
-/>
-</div>
-              <div>
-                <span className="text-white font-bold text-2xl">MatchMySkill</span>
-                <p className="text-indigo-200 text-sm">AI Resume Analyzer</p>
-              </div>
+//         {/* Navigation */}
+//         <nav className="relative z-10 border-b border-white/10 backdrop-blur-sm">
+//           <div className="max-w-7xl mx-auto flex justify-between items-center">
+//             <div className="flex items-center gap-3">
+//               {/* <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-3 rounded-2xl shadow-lg">
+//                 <Brain className="text-white" size={28} />
+//               </div> */}
+//             <div className="rounded-2xl overflow-hidden ">
+//   <img 
+//   src="/logo4.png" 
+//   alt="Logo" 
+//   className="w-24 h-24 object-contain"
+// />
+// </div>
+//               <div>
+//                 <span className="text-white font-bold text-2xl">MatchMySkill</span>
+//                 <p className="text-indigo-200 text-sm">AI Resume Analyzer</p>
+//               </div>
+//             </div>
+//             <div className="hidden md:flex items-center gap-8">
+//               <a href="#features" className="text-white/80 hover:text-white transition-colors">Features</a>
+//               <a href="#features" className="text-white/80 hover:text-white transition-colors">How it Works</a>
+//               {/* <a href="#pricing" className="text-white/80 hover:text-white transition-colors">Pricing</a> */}
+//             </div>
+//           </div>
+//         </nav>
+
+//         <div className="relative z-10 container mx-auto px-6 py-16">
+//           <div className="text-center max-w-6xl mx-auto">
+//             {/* Hero Section */}
+//             <div className="mb-16">
+//               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 mb-8">
+//                 <Sparkles className="text-yellow-400" size={20} />
+//                 <span className="text-white/90 font-medium">Powered by Advanced AI</span>
+//               </div>
+              
+//               <h1 className="text-7xl md:text-8xl font-bold bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent mb-8 leading-tight">
+//                 Match Your
+//                 <br />
+//                 <span className="text-indigo-400">Dream Job</span>
+//               </h1>
+              
+//               <p className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
+//                 AI-powered resume analysis that reveals exactly what recruiters want.
+//                 <br />
+//                 <span className="text-indigo-300 font-medium">Close skill gaps. Land interviews. Get hired.</span>
+//               </p>
+
+//               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
+//                 <button
+//                   onClick={() => setCurrentPage('upload')}
+//                   className="group bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:via-purple-500 hover:to-indigo-500 text-white px-10 py-5 rounded-2xl font-semibold text-xl flex items-center gap-4 transition-all duration-300 shadow-2xl hover:shadow-indigo-500/25 hover:scale-105"
+//                 >
+//                   <Rocket size={24} />
+//                   Start Free Analysis
+//                   <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+//                 </button>
+                
+//                 <button className="flex items-center gap-3 text-white/80 hover:text-white group">
+//                   <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
+//                     <Play size={20} />
+//                   </div>
+//                   <span className="font-medium">Watch Demo</span>
+//                 </button>
+//               </div>
+
+//               <div className="flex items-center justify-center gap-8 text-white/60 text-sm">
+//                 <div className="flex items-center gap-2">
+//                   <CheckCircle size={16} className="text-green-400" />
+//                   Free to use
+//                 </div>
+//                 <div className="flex items-center gap-2">
+//                   <Shield size={16} className="text-blue-400" />
+//                   Privacy protected
+//                 </div>
+//                 <div className="flex items-center gap-2">
+//                   <Zap size={16} className="text-yellow-400" />
+//                   Instant results
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Stats Section */}
+//             <div className="grid md:grid-cols-4 gap-8 mb-20">
+//               {
+//          [
+//   { icon: Star, value: "Free", label: "Always Available", color: "text-yellow-400" },
+//   // { icon: Clock, value: "24/7", label: "Access Anytime", color: "text-blue-400" },
+//  { icon: Brain, value: "AI-Powered", label: "Smart Analysis", color: "text-blue-400" },
+//  { icon: FileCheck, value: "ATS", label: "Optimized Format", color: "text-purple-400" },
+//   { icon: Shield, value: "Secure", label: "Data Handling", color: "text-purple-400" }
+// ]
+
+//               .map((stat, index) => (
+//                 <div key={index} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 group">
+//                   <stat.icon className={`${stat.color} mx-auto mb-4 group-hover:scale-110 transition-transform`} size={40} />
+//                   <div className="text-4xl font-bold text-white mb-2">{stat.value}</div>
+//                   <div className="text-gray-300">{stat.label}</div>
+//                 </div>
+//               ))}
+//             </div>
+
+//             {/* Features Section */}
+//             <div id="features" className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-12 mb-20">
+//               <h3 className="text-4xl font-bold text-white mb-16">How MatchMySkill Works</h3>
+//               <div className="grid md:grid-cols-3 gap-12">
+//                 {[
+//                   {
+//                     icon: Upload,
+//                     title: "Smart Upload",
+//                     description: "Upload your resume in any format. Our AI extracts and analyzes every detail with 99.9% accuracy using advanced OCR and NLP.",
+//                     gradient: "from-green-500 to-emerald-600"
+//                   },
+//                   {
+//                     icon: Brain,
+//                     title: "AI Analysis",
+//                     description: "Our advanced AI analyzes 300+ factors including skills, experience, keywords, and industry trends to provide comprehensive insights.",
+//                     gradient: "from-indigo-500 to-purple-600"
+//                   },
+//                   {
+//                     icon: Target,
+//                     title: "Actionable Results",
+//                     description: "Get personalized recommendations, priority improvements, and strategic advice tailored to your target role and industry.",
+//                     gradient: "from-orange-500 to-red-600"
+//                   }
+//                 ].map((feature, index) => (
+//                   <div key={index} className="relative group">
+//                     <div className={`bg-gradient-to-br ${feature.gradient} w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl group-hover:scale-110 transition-transform duration-300`}>
+//                       <feature.icon className="text-white" size={36} />
+//                     </div>
+//                     <h4 className="font-bold text-white mb-6 text-2xl">{feature.title}</h4>
+//                     <p className="text-gray-300 leading-relaxed text-lg">{feature.description}</p>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+
+//             {/* CTA Section */}
+//             <div className="text-center">
+//               <h3 className="text-4xl font-bold text-white mb-6">Ready to Land Your Dream Job?</h3>
+//               <p className="text-xl text-gray-300 mb-10">Join thousands of professionals who've improved their resumes with MatchMySkill</p>
+              
+//               <button
+//                 onClick={() => setCurrentPage('upload')}
+//                 className="group bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:via-purple-500 hover:to-indigo-500 text-white px-12 py-6 rounded-2xl font-bold text-xl flex items-center gap-4 mx-auto transition-all duration-300 shadow-2xl hover:shadow-indigo-500/25 hover:scale-105"
+//               >
+//                 <Sparkles size={24} />
+//                 Get Your Free Analysis
+//                 <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   };
+
+const HomePage = () => {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 relative overflow-hidden">
+      {/* Background Effects (hidden on mobile) */}
+      <div className="absolute inset-0 hidden sm:block">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
+      {/* Navigation */}
+      <nav className="relative z-10 border-b border-white/10 backdrop-blur-sm px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto flex justify-between items-center py-4">
+          <div className="flex items-center gap-3">
+            <div className="rounded-2xl overflow-hidden">
+              <img 
+                src="/logo4.png" 
+                alt="Logo" 
+                className="w-16 h-16 sm:w-24 sm:h-24 object-contain"
+              />
             </div>
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-white/80 hover:text-white transition-colors">Features</a>
-              <a href="#features" className="text-white/80 hover:text-white transition-colors">How it Works</a>
-              {/* <a href="#pricing" className="text-white/80 hover:text-white transition-colors">Pricing</a> */}
+            <div>
+              <span className="text-white font-bold text-xl sm:text-2xl">MatchMySkill</span>
+              <p className="text-indigo-200 text-sm">AI Resume Analyzer</p>
             </div>
           </div>
-        </nav>
 
-        <div className="relative z-10 container mx-auto px-6 py-16">
-          <div className="text-center max-w-6xl mx-auto">
-            {/* Hero Section */}
-            <div className="mb-16">
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 mb-8">
-                <Sparkles className="text-yellow-400" size={20} />
-                <span className="text-white/90 font-medium">Powered by Advanced AI</span>
-              </div>
-              
-              <h1 className="text-7xl md:text-8xl font-bold bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent mb-8 leading-tight">
-                Match Your
-                <br />
-                <span className="text-indigo-400">Dream Job</span>
-              </h1>
-              
-              <p className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-                AI-powered resume analysis that reveals exactly what recruiters want.
-                <br />
-                <span className="text-indigo-300 font-medium">Close skill gaps. Land interviews. Get hired.</span>
-              </p>
+          {/* Only visible on medium and up */}
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-white/80 hover:text-white transition-colors">Features</a>
+            <a href="#features" className="text-white/80 hover:text-white transition-colors">How it Works</a>
+          </div>
+        </div>
+      </nav>
 
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
-                <button
-                  onClick={() => setCurrentPage('upload')}
-                  className="group bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:via-purple-500 hover:to-indigo-500 text-white px-10 py-5 rounded-2xl font-semibold text-xl flex items-center gap-4 transition-all duration-300 shadow-2xl hover:shadow-indigo-500/25 hover:scale-105"
-                >
-                  <Rocket size={24} />
-                  Start Free Analysis
-                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                </button>
-                
-                <button className="flex items-center gap-3 text-white/80 hover:text-white group">
-                  <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                    <Play size={20} />
-                  </div>
-                  <span className="font-medium">Watch Demo</span>
-                </button>
-              </div>
-
-              <div className="flex items-center justify-center gap-8 text-white/60 text-sm">
-                <div className="flex items-center gap-2">
-                  <CheckCircle size={16} className="text-green-400" />
-                  Free to use
-                </div>
-                <div className="flex items-center gap-2">
-                  <Shield size={16} className="text-blue-400" />
-                  Privacy protected
-                </div>
-                <div className="flex items-center gap-2">
-                  <Zap size={16} className="text-yellow-400" />
-                  Instant results
-                </div>
-              </div>
+      {/* Main Content */}
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-8 py-12 sm:py-16">
+        <div className="text-center max-w-6xl mx-auto">
+          {/* Hero Section */}
+          <div className="mb-16">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 mb-6">
+              <Sparkles className="text-yellow-400" size={20} />
+              <span className="text-white/90 font-medium text-sm sm:text-base">Powered by Advanced AI</span>
             </div>
 
-            {/* Stats Section */}
-            <div className="grid md:grid-cols-4 gap-8 mb-20">
-              {
-         [
-  { icon: Star, value: "Free", label: "Always Available", color: "text-yellow-400" },
-  // { icon: Clock, value: "24/7", label: "Access Anytime", color: "text-blue-400" },
- { icon: Brain, value: "AI-Powered", label: "Smart Analysis", color: "text-blue-400" },
- { icon: FileCheck, value: "ATS", label: "Optimized Format", color: "text-purple-400" },
-  { icon: Shield, value: "Secure", label: "Data Handling", color: "text-purple-400" }
-]
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent mb-6 leading-tight">
+              Match Your
+              <br />
+              <span className="text-indigo-400">Dream Job</span>
+            </h1>
 
-              .map((stat, index) => (
-                <div key={index} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 group">
-                  <stat.icon className={`${stat.color} mx-auto mb-4 group-hover:scale-110 transition-transform`} size={40} />
-                  <div className="text-4xl font-bold text-white mb-2">{stat.value}</div>
-                  <div className="text-gray-300">{stat.label}</div>
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
+              AI-powered resume analysis that reveals exactly what recruiters want.
+              <br />
+              <span className="text-indigo-300 font-medium">Close skill gaps. Land interviews. Get hired.</span>
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-12">
+              <button
+                onClick={() => setCurrentPage('upload')}
+                className="w-full sm:w-auto bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:via-purple-500 hover:to-indigo-500 text-white px-6 sm:px-10 py-4 sm:py-5 rounded-2xl font-semibold text-lg sm:text-xl flex items-center justify-center gap-3 transition-all duration-300 shadow-2xl hover:shadow-indigo-500/25 hover:scale-105"
+              >
+                <Rocket size={24} />
+                Start Free Analysis
+                <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <button className="flex items-center gap-3 text-white/80 hover:text-white group">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
+                  <Play size={20} />
+                </div>
+                <span className="font-medium text-sm sm:text-base">Watch Demo</span>
+              </button>
+            </div>
+
+            {/* Benefits Row */}
+            <div className="flex flex-wrap justify-center gap-6 text-white/60 text-sm">
+              <div className="flex items-center gap-2">
+                <CheckCircle size={16} className="text-green-400" />
+                Free to use
+              </div>
+              <div className="flex items-center gap-2">
+                <Shield size={16} className="text-blue-400" />
+                Privacy protected
+              </div>
+              <div className="flex items-center gap-2">
+                <Zap size={16} className="text-yellow-400" />
+                Instant results
+              </div>
+            </div>
+          </div>
+
+          {/* Stats Section */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 mb-16">
+            {[
+              { icon: Star, value: "Free", label: "Always Available", color: "text-yellow-400" },
+              { icon: Brain, value: "AI-Powered", label: "Smart Analysis", color: "text-blue-400" },
+              { icon: FileCheck, value: "ATS", label: "Optimized Format", color: "text-purple-400" },
+              { icon: Shield, value: "Secure", label: "Data Handling", color: "text-purple-400" }
+            ].map((stat, index) => (
+              <div key={index} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 sm:p-8 hover:bg-white/10 transition-all duration-300 group text-center">
+                <stat.icon className={`${stat.color} mx-auto mb-4 group-hover:scale-110 transition-transform`} size={36} />
+                <div className="text-2xl font-bold text-white mb-1">{stat.value}</div>
+                <div className="text-gray-300 text-sm">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Features Section */}
+          <div id="features" className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 sm:p-12 mb-20">
+            <h3 className="text-3xl sm:text-4xl font-bold text-white mb-12 text-center">How MatchMySkill Works</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12">
+              {[
+                {
+                  icon: Upload,
+                  title: "Smart Upload",
+                  description: "Upload your resume in any format. Our AI extracts and analyzes every detail with 99.9% accuracy using advanced OCR and NLP.",
+                  gradient: "from-green-500 to-emerald-600"
+                },
+                {
+                  icon: Brain,
+                  title: "AI Analysis",
+                  description: "Our advanced AI analyzes 300+ factors including skills, experience, keywords, and industry trends to provide comprehensive insights.",
+                  gradient: "from-indigo-500 to-purple-600"
+                },
+                {
+                  icon: Target,
+                  title: "Actionable Results",
+                  description: "Get personalized recommendations, priority improvements, and strategic advice tailored to your target role and industry.",
+                  gradient: "from-orange-500 to-red-600"
+                }
+              ].map((feature, index) => (
+                <div key={index} className="text-center group">
+                  <div className={`bg-gradient-to-br ${feature.gradient} w-20 h-20 sm:w-24 sm:h-24 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-2xl group-hover:scale-110 transition-transform duration-300`}>
+                    <feature.icon className="text-white" size={30} />
+                  </div>
+                  <h4 className="font-bold text-white mb-4 text-xl sm:text-2xl">{feature.title}</h4>
+                  <p className="text-gray-300 leading-relaxed text-sm sm:text-lg">{feature.description}</p>
                 </div>
               ))}
             </div>
+          </div>
 
-            {/* Features Section */}
-            <div id="features" className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-12 mb-20">
-              <h3 className="text-4xl font-bold text-white mb-16">How MatchMySkill Works</h3>
-              <div className="grid md:grid-cols-3 gap-12">
-                {[
-                  {
-                    icon: Upload,
-                    title: "Smart Upload",
-                    description: "Upload your resume in any format. Our AI extracts and analyzes every detail with 99.9% accuracy using advanced OCR and NLP.",
-                    gradient: "from-green-500 to-emerald-600"
-                  },
-                  {
-                    icon: Brain,
-                    title: "AI Analysis",
-                    description: "Our advanced AI analyzes 300+ factors including skills, experience, keywords, and industry trends to provide comprehensive insights.",
-                    gradient: "from-indigo-500 to-purple-600"
-                  },
-                  {
-                    icon: Target,
-                    title: "Actionable Results",
-                    description: "Get personalized recommendations, priority improvements, and strategic advice tailored to your target role and industry.",
-                    gradient: "from-orange-500 to-red-600"
-                  }
-                ].map((feature, index) => (
-                  <div key={index} className="relative group">
-                    <div className={`bg-gradient-to-br ${feature.gradient} w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl group-hover:scale-110 transition-transform duration-300`}>
-                      <feature.icon className="text-white" size={36} />
-                    </div>
-                    <h4 className="font-bold text-white mb-6 text-2xl">{feature.title}</h4>
-                    <p className="text-gray-300 leading-relaxed text-lg">{feature.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* CTA Section */}
-            <div className="text-center">
-              <h3 className="text-4xl font-bold text-white mb-6">Ready to Land Your Dream Job?</h3>
-              <p className="text-xl text-gray-300 mb-10">Join thousands of professionals who've improved their resumes with MatchMySkill</p>
-              
-              <button
-                onClick={() => setCurrentPage('upload')}
-                className="group bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:via-purple-500 hover:to-indigo-500 text-white px-12 py-6 rounded-2xl font-bold text-xl flex items-center gap-4 mx-auto transition-all duration-300 shadow-2xl hover:shadow-indigo-500/25 hover:scale-105"
-              >
-                <Sparkles size={24} />
-                Get Your Free Analysis
-                <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
+          {/* CTA Section */}
+          <div className="text-center">
+            <h3 className="text-3xl sm:text-4xl font-bold text-white mb-4">Ready to Land Your Dream Job?</h3>
+            <p className="text-base sm:text-xl text-gray-300 mb-8">Join thousands of professionals who've improved their resumes with MatchMySkill</p>
+            <button
+              onClick={() => setCurrentPage('upload')}
+              className="group bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:via-purple-500 hover:to-indigo-500 text-white px-8 sm:px-12 py-4 sm:py-6 rounded-2xl font-bold text-lg sm:text-xl flex items-center gap-3 mx-auto transition-all duration-300 shadow-2xl hover:shadow-indigo-500/25 hover:scale-105"
+            >
+              <Sparkles size={20} />
+              Get Your Free Analysis
+              <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            </button>
           </div>
         </div>
       </div>
-    );
-  };
-
+    </div>
+  );
+};
 
 const UploadPage = ({ 
   setCurrentPage,
@@ -314,238 +475,417 @@ const UploadPage = ({
   };
 
   const handleAnalyze = async () => {
-  if (!resumeText.trim() || !localJobDescription.trim()) {
-    showToast('Please provide resume content and job description', 'error');
-    return;
-  }
-
-  setIsAnalyzing(true);
-
-  try {
-    if (!GEMINI_API_KEY) {
-      showToast('Gemini API key is not configured', 'error');
+    if (!resumeText.trim() || !localJobDescription.trim()) {
+      showToast('Please provide resume content and job description', 'error');
       return;
     }
 
-    // Optionally update parent state (if needed for results page)
-   // onJobDescriptionSubmit(localJobDescription); // 👈 this sends it to App.js if you want to store it globally
+    setIsAnalyzing(true);
 
-    const result = await analyzeWithGemini(resumeText, localJobDescription, GEMINI_API_KEY);
+    try {
+      if (!GEMINI_API_KEY) {
+        showToast('Gemini API key is not configured', 'error');
+        return;
+      }
 
-    const fullResult = {
-      id: Date.now(),
-      fileName: uploadedFile?.name || "Manual Input",
-      jobTitle: extractJobTitle(localJobDescription),
-      analyzedAt: new Date().toLocaleString(),
-      provider: selectedProvider === 'openai' ? 'OpenAI GPT-4' : 'Google Gemini',
-      ...result,
-    };
+      const result = await analyzeWithGemini(resumeText, localJobDescription, GEMINI_API_KEY);
 
-    setAnalysisResult(fullResult);
-    setAnalysisHistory(prev => [fullResult, ...prev]);
-    setCurrentPage('results');
-    showToast('Analysis completed successfully!');
+      const fullResult = {
+        id: Date.now(),
+        fileName: uploadedFile?.name || "Manual Input",
+        jobTitle: extractJobTitle(localJobDescription),
+        analyzedAt: new Date().toLocaleString(),
+        provider: selectedProvider === 'openai' ? 'OpenAI GPT-4' : 'Google Gemini',
+        ...result,
+      };
 
-    // clear temporary data
-    setResumeText('');
-    setUploadedFile(null);
-    setExtractionProgress(0);
-  } catch (error) {
-    console.error('Analysis error:', error);
-    showToast(`Analysis failed: ${error.message}`, 'error');
-  } finally {
-    setIsAnalyzing(false);
-  }
-};
+      setAnalysisResult(fullResult);
+      setAnalysisHistory(prev => [fullResult, ...prev]);
+      setCurrentPage('results');
+      showToast('Analysis completed successfully!');
 
+      setResumeText('');
+      setUploadedFile(null);
+      setExtractionProgress(0);
+    } catch (error) {
+      console.error('Analysis error:', error);
+      showToast(`Analysis failed: ${error.message}`, 'error');
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
 
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50">
-        {/* Navigation */}
-        <nav className="bg-white shadow-sm border-b ">
-          <div className="max-w-7xl mx-auto flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <div className="rounded-2xl overflow-hidden ">
-  <img 
-  src="/logo4.png" 
-  alt="Logo" 
-  className="w-24 h-24 object-contain"
-/>
-</div>
-              <span className="text-gray-800 font-bold text-xl">MatchMySkill</span>
-            </div>
-            <button
-              onClick={() => setCurrentPage('home')}
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-800"
-            >
-              <Home size={20} />
-              Home
-            </button>
+  // return (
+  //   <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50 overflow-x-hidden">
+  //     {/* Navigation */}
+  //     <nav className="bg-white shadow-sm border-b">
+  //       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center px-3 sm:px-4 py-2 w-full">
+  //         <div className="flex items-center gap-3">
+  //           <div className="rounded-2xl overflow-hidden">
+  //             <img
+  //               src="/logo4.png"
+  //               alt="Logo"
+  //               className="w-14 h-14 sm:w-20 sm:h-20 object-contain"
+  //             />
+  //           </div>
+  //           <span className="text-gray-800 font-bold text-base sm:text-xl">MatchMySkill</span>
+  //         </div>
+  //         <button
+  //           onClick={() => setCurrentPage('home')}
+  //           className="flex items-center gap-2 text-gray-600 hover:text-gray-800 mt-3 sm:mt-0 text-sm sm:text-base"
+  //         >
+  //           <Home size={18} />
+  //           Home
+  //         </button>
+  //       </div>
+  //     </nav>
+
+  //     <div className="container mx-auto px-2 sm:px-4 md:px-6 py-4 md:py-10 w-full">
+  //       <div className="max-w-full md:max-w-5xl mx-auto">
+  //         {/* Header */}
+  //         <div className="text-center mb-6 md:mb-10">
+  //           <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 rounded-full px-3 py-1.5 md:px-6 md:py-3 mb-3 md:mb-6 text-xs md:text-base">
+  //             <Target size={18} />
+  //             <span className="font-medium">Professional Analysis</span>
+  //           </div>
+  //           <h1 className="text-2xl md:text-5xl font-bold text-gray-800 mb-3 md:mb-6">Upload Your Resume</h1>
+  //           <p className="text-gray-600 text-sm md:text-xl max-w-2xl mx-auto">
+  //             Let our advanced AI analyze your resume against your target job and discover exactly what you need to succeed.
+  //           </p>
+  //         </div>
+
+  //         {/* Progress Steps - hidden on mobile */}
+  //         <div className="hidden md:flex flex-col md:flex-row items-center justify-center mb-8 md:mb-14 gap-4 md:gap-0">
+  //           <div className="flex items-center">
+  //             <div className="bg-indigo-600 text-white w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center font-bold shadow-lg border-4 border-indigo-100 text-lg md:text-2xl">1</div>
+  //             <span className="ml-2 md:ml-4 text-indigo-600 font-semibold text-base md:text-lg">Upload Resume</span>
+  //           </div>
+  //           <div className="hidden md:block flex-1 border-t-2 border-indigo-300 mx-8 max-w-32 relative">
+  //             <div className="absolute top-0 left-0 w-full h-full border-t-2 border-indigo-600 animate-pulse"></div>
+  //           </div>
+  //           <div className="flex items-center">
+  //             <div className="bg-gray-200 text-gray-500 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center font-bold text-lg md:text-2xl">2</div>
+  //             <span className="ml-2 md:ml-4 text-gray-500 font-semibold text-base md:text-lg">Job Details</span>
+  //           </div>
+  //           <div className="hidden md:block flex-1 border-t-2 border-gray-200 mx-8 max-w-32"></div>
+  //           <div className="flex items-center">
+  //             <div className="bg-gray-200 text-gray-500 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center font-bold text-lg md:text-2xl">3</div>
+  //             <span className="ml-2 md:ml-4 text-gray-500 font-semibold text-base md:text-lg">AI Analysis</span>
+  //           </div>
+  //         </div>
+
+  //         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-10">
+  //           {/* File Upload Section */}
+  //           <div className="bg-white rounded-2xl shadow-xl p-3 sm:p-5 md:p-8 border border-gray-100 w-full">
+  //             <div className="mb-4 md:mb-8">
+  //               <h3 className="text-lg md:text-2xl font-bold text-gray-800 mb-1.5 md:mb-3 flex items-center gap-3">
+  //                 <FileText className="text-indigo-600" size={20} />
+  //                 Resume Upload
+  //               </h3>
+  //               <p className="text-gray-600 text-xs md:text-base">Upload your resume in PDF, DOCX, or TXT format for analysis</p>
+  //             </div>
+
+  //             <div className="border-2 border-dashed border-gray-300 rounded-2xl p-3 sm:p-5 md:p-10 text-center hover:border-indigo-400 hover:bg-indigo-50/50 transition-all duration-300 relative group">
+  //               <input
+  //                 type="file"
+  //                 ref={fileInputRef}
+  //                 accept=".pdf,.docx,.txt"
+  //                 onChange={handleFileUpload}
+  //                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+  //               />
+
+  //               {!uploadedFile ? (
+  //                 <>
+  //                   <Upload className="mx-auto text-gray-400 mb-3 md:mb-6 group-hover:text-indigo-500 transition-colors" size={40} />
+  //                   <p className="text-gray-700 mb-1.5 md:mb-3 font-semibold text-sm md:text-lg">
+  //                     Drag and drop your resume here
+  //                   </p>
+  //                   <p className="text-gray-500 mb-3 md:mb-6 text-xs md:text-base">or click to browse files</p>
+  //                   <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 rounded-xl px-3 py-1.5 md:px-6 md:py-3 text-xs md:text-base">
+  //                     <FileText size={16} />
+  //                     <span className="font-medium">PDF, DOCX, TXT supported</span>
+  //                   </div>
+  //                 </>
+  //               ) : (
+  //                 <div>
+  //                   <CheckCircle className="mx-auto text-green-500 mb-3 md:mb-6" size={40} />
+  //                   <p className="text-gray-800 font-semibold mb-1.5 md:mb-3 text-sm md:text-lg">{uploadedFile.name}</p>
+  //                   <p className="text-gray-600 mb-3 md:mb-6 text-xs md:text-base">File uploaded successfully</p>
+
+  //                   {extractionProgress > 0 && extractionProgress < 100 && (
+  //                     <div className="mb-3 md:mb-6">
+  //                       <div className="flex items-center justify-between text-gray-600 mb-1.5 md:mb-3">
+  //                         <span className="font-medium">Processing content...</span>
+  //                         <span className="font-bold">{extractionProgress}%</span>
+  //                       </div>
+  //                       <div className="w-full bg-gray-200 rounded-full h-2 md:h-3">
+  //                         <div
+  //                           className="bg-indigo-600 h-2 md:h-3 rounded-full transition-all duration-500"
+  //                           style={{ width: `${extractionProgress}%` }}
+  //                         ></div>
+  //                       </div>
+  //                     </div>
+  //                   )}
+
+  //                   {extractionProgress === 100 && (
+  //                     <>
+  //                       <div className="text-green-600 flex items-center gap-2 justify-center mb-2 md:mb-4">
+  //                         <CheckCircle size={18} />
+  //                         <span className="font-medium">File processed successfully</span>
+  //                       </div>
+  //                       <button
+  //                         onClick={() => fileInputRef.current?.click()}
+  //                         className="text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-2 mx-auto text-sm"
+  //                       >
+  //                         <RefreshCw size={16} />
+  //                         Replace File
+  //                       </button>
+  //                     </>
+  //                   )}
+  //                 </div>
+  //               )}
+  //             </div>
+  //           </div>
+
+  //           {/* Job Description Section */}
+  //           <div className="bg-white rounded-2xl shadow-xl p-3 sm:p-5 md:p-8 border border-gray-100 w-full">
+  //             <div className="mb-4 md:mb-8">
+  //               <h3 className="text-lg md:text-2xl font-bold text-gray-800 mb-1.5 md:mb-3 flex items-center gap-3">
+  //                 <Briefcase className="text-purple-600" size={20} />
+  //                 Target Job Description
+  //               </h3>
+  //               <p className="text-gray-600 text-xs md:text-base">Paste the job description you're applying for to get targeted insights</p>
+  //             </div>
+
+  //             <textarea
+  //               ref={textareaRef}
+  //               value={localJobDescription}
+  //               onChange={handleChange}
+  //               placeholder="Paste the complete job description here including requirements, responsibilities, and qualifications..."
+  //               className="w-full h-32 md:h-80 p-2 sm:p-3 md:p-6 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none text-gray-700 text-xs md:text-base"
+  //             />
+  //           </div>
+  //         </div>
+
+  //         {/* Action Buttons */}
+  //         <div className="flex flex-col sm:flex-row justify-center items-stretch gap-3 sm:gap-6 mt-8 md:mt-14">
+  //           <button
+  //             onClick={() => setCurrentPage('home')}
+  //             className="w-full sm:w-auto px-5 md:px-8 py-3 md:py-4 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 flex items-center justify-center gap-2 font-medium text-sm md:text-lg"
+  //           >
+  //             <ArrowLeft size={18} />
+  //             Back to Home
+  //           </button>
+
+  //           <button
+  //             onClick={handleAnalyze}
+  //             disabled={isAnalyzing || !resumeText || !localJobDescription}
+  //             className="w-full sm:w-auto px-5 md:px-10 py-3 md:py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-500 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-semibold text-sm md:text-lg shadow-lg hover:shadow-indigo-500/25 transition-all"
+  //           >
+  //             {isAnalyzing ? (
+  //               <>
+  //                 <RefreshCw className="animate-spin" size={18} />
+  //                 Analyzing Resume...
+  //               </>
+  //             ) : (
+  //               <>
+  //                 <Sparkles size={18} />
+  //                 Analyze Resume
+  //               </>
+  //             )}
+  //           </button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
+
+return (
+  <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50 overflow-x-hidden">
+    {/* Navigation */}
+    <nav className="bg-white shadow-sm border-b">
+      <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center px-4 py-2 w-full gap-2">
+        <div className="flex items-center gap-3">
+          <div className="rounded-2xl overflow-hidden">
+            <img
+              src="/logo4.png"
+              alt="Logo"
+              className="w-14 h-14 sm:w-20 sm:h-20 object-contain"
+            />
           </div>
-        </nav>
+          <span className="text-gray-800 font-bold text-lg sm:text-xl">MatchMySkill</span>
+        </div>
+        <button
+          onClick={() => setCurrentPage('home')}
+          className="hidden sm:flex items-center gap-2 text-gray-600 hover:text-gray-800 text-sm sm:text-base"
+        >
+          <Home size={18} />
+          Home
+        </button>
+      </div>
+    </nav>
 
-        <div className="container mx-auto px-6 py-12">
-          <div className="max-w-5xl mx-auto">
-            {/* Header */}
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 rounded-full px-6 py-3 mb-6">
-                <Target size={20} />
-                <span className="font-medium">Professional Analysis</span>
-              </div>
-              <h1 className="text-5xl font-bold text-gray-800 mb-6">Upload Your Resume</h1>
-              <p className="text-gray-600 text-xl max-w-2xl mx-auto">
-                Let our advanced AI analyze your resume against your target job and discover exactly what you need to succeed.
-              </p>
-            </div>
+    <div className="container mx-auto px-4 py-6 sm:py-10 w-full">
+      <div className="max-w-full md:max-w-5xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 rounded-full px-4 py-2 text-sm sm:text-base mb-4">
+            <Target size={18} />
+            <span className="font-medium">Professional Analysis</span>
+          </div>
+          <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 mb-3">Upload Your Resume</h1>
+          <p className="text-gray-600 text-sm sm:text-lg max-w-xl mx-auto">
+            Let our advanced AI analyze your resume against your target job and discover exactly what you need to succeed.
+          </p>
+        </div>
 
-            {/* Progress Steps */}
-            <div className="flex items-center justify-center mb-16">
-              <div className="flex items-center">
-                <div className="bg-indigo-600 text-white w-14 h-14 rounded-full flex items-center justify-center font-bold shadow-lg border-4 border-indigo-100">1</div>
-                <span className="ml-4 text-indigo-600 font-semibold text-lg">Upload Resume</span>
-              </div>
-              <div className="flex-1 border-t-2 border-indigo-300 mx-8 max-w-32 relative">
-                <div className="absolute top-0 left-0 w-full h-full border-t-2 border-indigo-600 animate-pulse"></div>
-              </div>
-              <div className="flex items-center">
-                <div className="bg-gray-200 text-gray-500 w-14 h-14 rounded-full flex items-center justify-center font-bold">2</div>
-                <span className="ml-4 text-gray-500 font-semibold text-lg">Job Details</span>
-              </div>
-              <div className="flex-1 border-t-2 border-gray-200 mx-8 max-w-32"></div>
-              <div className="flex items-center">
-                <div className="bg-gray-200 text-gray-500 w-14 h-14 rounded-full flex items-center justify-center font-bold">3</div>
-                <span className="ml-4 text-gray-500 font-semibold text-lg">AI Analysis</span>
-              </div>
-            </div>
-
-            <div className="grid lg:grid-cols-2 gap-12">
-              {/* File Upload Section */}
-              <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-100">
-                <div className="mb-8">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-3 flex items-center gap-3">
-                    <FileText className="text-indigo-600" size={28} />
-                    Resume Upload
-                  </h3>
-                  <p className="text-gray-600">Upload your resume in PDF, DOCX, or TXT format for analysis</p>
-                </div>
-
-                <div className="border-2 border-dashed border-gray-300 rounded-2xl p-12 text-center hover:border-indigo-400 hover:bg-indigo-50/50 transition-all duration-300 relative group">
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    accept=".pdf,.docx,.txt"
-                    onChange={handleFileUpload}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  />
-                  
-                  {!uploadedFile ? (
-                    <>
-                      <Upload className="mx-auto text-gray-400 mb-6 group-hover:text-indigo-500 transition-colors" size={64} />
-                      <p className="text-gray-700 mb-3 font-semibold text-lg">
-                        Drag and drop your resume here
-                      </p>
-                      <p className="text-gray-500 mb-6">or click to browse files</p>
-                      <div className="inline-flex items-center gap-3 bg-indigo-100 text-indigo-700 rounded-xl px-6 py-3">
-                        <FileText size={20} />
-                        <span className="font-medium">PDF, DOCX, TXT supported</span>
-                      </div>
-                    </>
-                  ) : (
-                    <div>
-                      <CheckCircle className="mx-auto text-green-500 mb-6" size={64} />
-                      <p className="text-gray-800 font-semibold mb-3 text-lg">{uploadedFile.name}</p>
-                      <p className="text-gray-600 mb-6">File uploaded successfully</p>
-                      
-                      {extractionProgress > 0 && extractionProgress < 100 && (
-                        <div className="mb-6">
-                          <div className="flex items-center justify-between text-gray-600 mb-3">
-                            <span className="font-medium">Processing content...</span>
-                            <span className="font-bold">{extractionProgress}%</span>
-                          </div>
-                          <div className="w-full bg-gray-200 rounded-full h-3">
-                            <div 
-                              className="bg-indigo-600 h-3 rounded-full transition-all duration-500"
-                              style={{ width: `${extractionProgress}%` }}
-                            ></div>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {extractionProgress === 100 && (
-                        <>
-                          <div className="text-green-600 flex items-center gap-2 justify-center mb-4">
-                            <CheckCircle size={20} />
-                            <span className="font-medium">File processed successfully</span>
-                          </div>
-                          <button
-                            onClick={() => fileInputRef.current?.click()}
-                            className="text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-2 mx-auto"
-                          >
-                            <RefreshCw size={18} />
-                            Replace File
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* Job Description Section */}
-              <div className="bg-white rounded-3xl shadow-xl p-10 border border-gray-100">
-                <div className="mb-8">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-3 flex items-center gap-3">
-                    <Briefcase className="text-purple-600" size={28} />
-                    Target Job Description
-                  </h3>
-                  <p className="text-gray-600">Paste the job description you're applying for to get targeted insights</p>
-                </div>
-                
-                <textarea
-                  
-                  ref={textareaRef}
-                  value={localJobDescription}
-                  //onChange={handleJobDescriptionChange}
-                  onChange={handleChange}
-                  placeholder="Paste the complete job description here including requirements, responsibilities, and qualifications..."
-                  className="w-full h-80 p-6 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none text-gray-700"
-                />
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex justify-between items-center mt-16">
-              <button
-                onClick={() => setCurrentPage('home')}
-                className="px-8 py-4 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 flex items-center gap-3 font-medium"
-              >
-                <ArrowLeft size={20} />
-                Back to Home
-              </button>
-              
-              <button
-                onClick={handleAnalyze}
-                disabled={isAnalyzing || !resumeText || !localJobDescription}
-                className="px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-500 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3 font-semibold text-lg shadow-lg hover:shadow-indigo-500/25 transition-all"
-              >
-                {isAnalyzing ? (
-                  <>
-                    <RefreshCw className="animate-spin" size={20} />
-                    Analyzing Resume...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles size={20} />
-                    Analyze Resume
-                  </>
-                )}
-              </button>
-            </div>
+        {/* Progress Steps - hidden on mobile */}
+        <div className="hidden md:flex items-center justify-center mb-12 gap-4">
+          <div className="flex items-center">
+            <div className="bg-indigo-600 text-white w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center font-bold shadow-lg border-4 border-indigo-100 text-lg md:text-2xl">1</div>
+            <span className="ml-3 text-indigo-600 font-semibold text-base md:text-lg">Upload Resume</span>
+          </div>
+          <div className="flex-1 border-t-2 border-indigo-300 mx-8 max-w-32 relative">
+            <div className="absolute top-0 left-0 w-full h-full border-t-2 border-indigo-600 animate-pulse"></div>
+          </div>
+          <div className="flex items-center">
+            <div className="bg-gray-200 text-gray-500 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center font-bold text-lg md:text-2xl">2</div>
+            <span className="ml-3 text-gray-500 font-semibold text-base md:text-lg">Job Details</span>
+          </div>
+          <div className="flex-1 border-t-2 border-gray-200 mx-8 max-w-32"></div>
+          <div className="flex items-center">
+            <div className="bg-gray-200 text-gray-500 w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center font-bold text-lg md:text-2xl">3</div>
+            <span className="ml-3 text-gray-500 font-semibold text-base md:text-lg">AI Analysis</span>
           </div>
         </div>
+
+        {/* Form Sections */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* File Upload Section */}
+          <div className="bg-white rounded-2xl shadow-xl p-5 border border-gray-100">
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                <FileText className="text-indigo-600" size={20} />
+                Resume Upload
+              </h3>
+              <p className="text-gray-600 text-sm mt-1">Upload your resume in PDF, DOCX, or TXT format for analysis</p>
+            </div>
+
+            <div className="border-2 border-dashed border-gray-300 rounded-2xl p-5 text-center hover:border-indigo-400 hover:bg-indigo-50/50 transition-all relative group">
+              <input
+                type="file"
+                ref={fileInputRef}
+                accept=".pdf,.docx,.txt"
+                onChange={handleFileUpload}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+              />
+
+              {!uploadedFile ? (
+                <>
+                  <Upload className="mx-auto text-gray-400 mb-4 group-hover:text-indigo-500" size={40} />
+                  <p className="text-gray-700 font-semibold mb-2 text-sm">Drag and drop your resume here</p>
+                  <p className="text-gray-500 text-xs mb-4">or click to browse files</p>
+                  <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 rounded-xl px-4 py-2 text-sm">
+                    <FileText size={16} />
+                    <span className="font-medium">PDF, DOCX, TXT supported</span>
+                  </div>
+                </>
+              ) : (
+                <div>
+                  <CheckCircle className="mx-auto text-green-500 mb-4" size={40} />
+                  <p className="text-gray-800 font-semibold mb-1 text-sm truncate">{uploadedFile.name}</p>
+                  <p className="text-gray-600 mb-3 text-xs">File uploaded successfully</p>
+
+                  {extractionProgress > 0 && extractionProgress < 100 && (
+                    <div className="mb-4">
+                      <div className="flex items-center justify-between text-gray-600 mb-1">
+                        <span className="font-medium">Processing...</span>
+                        <span className="font-bold">{extractionProgress}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div
+                          className="bg-indigo-600 h-2 rounded-full transition-all duration-500"
+                          style={{ width: `${extractionProgress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  )}
+
+                  {extractionProgress === 100 && (
+                    <>
+                      <div className="text-green-600 flex items-center gap-2 justify-center mb-3">
+                        <CheckCircle size={18} />
+                        <span className="font-medium">File processed successfully</span>
+                      </div>
+                      <button
+                        onClick={() => fileInputRef.current?.click()}
+                        className="text-indigo-600 hover:text-indigo-800 font-medium flex items-center gap-2 mx-auto text-sm"
+                      >
+                        <RefreshCw size={16} />
+                        Replace File
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Job Description Section */}
+          <div className="bg-white rounded-2xl shadow-xl p-5 border border-gray-100">
+            <div className="mb-6">
+              <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                <Briefcase className="text-purple-600" size={20} />
+                Target Job Description
+              </h3>
+              <p className="text-gray-600 text-sm mt-1">Paste the job description you're applying for to get targeted insights</p>
+            </div>
+
+            <textarea
+              ref={textareaRef}
+              value={localJobDescription}
+              onChange={handleChange}
+              placeholder="Paste the complete job description here..."
+              className="w-full h-32 sm:h-64 p-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-none text-sm text-gray-700"
+            />
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row justify-center items-stretch gap-4 mt-10">
+          <button
+            onClick={() => setCurrentPage('home')}
+            className="w-full sm:w-auto px-5 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 flex items-center justify-center gap-2 font-medium text-sm"
+          >
+            <ArrowLeft size={18} />
+            Back to Home
+          </button>
+
+          <button
+            onClick={handleAnalyze}
+            disabled={isAnalyzing || !resumeText || !localJobDescription}
+            className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-500 hover:to-purple-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 font-semibold text-sm shadow-md transition"
+          >
+            {isAnalyzing ? (
+              <>
+                <RefreshCw className="animate-spin" size={18} />
+                Analyzing Resume...
+              </>
+            ) : (
+              <>
+                <Sparkles size={18} />
+                Analyze Resume
+              </>
+            )}
+          </button>
+        </div>
       </div>
-    );
-  };
+    </div>
+  </div>
+);
+
+
+};
 
 
 const ResultsPage = () => {
@@ -573,227 +913,6 @@ const ResultsPage = () => {
     downloadBtn.innerHTML = '<div class="animate-spin w-5 h-5 border-2 border-white border-t-transparent rounded-full"></div> Generating...';
     downloadBtn.disabled = true;
 
-    // Create PDF content
-    // const element = document.createElement('div');
-    // element.innerHTML = `
-    //   <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 30px; max-width: 800px; background: white;">
-    //     <!-- Header -->
-    //     <div style="text-align: center; margin-bottom: 40px; border-bottom: 3px solid #4f46e5; padding-bottom: 20px;">
-    //       <h1 style="color: #1e293b; font-size: 32px; margin-bottom: 8px; font-weight: bold;">Resume Analysis Report</h1>
-    //       <p style="color: #64748b; font-size: 14px; margin: 0;">AI-Powered Career Enhancement Report</p>
-    //       <p style="color: #64748b; font-size: 12px; margin-top: 5px;">Generated on ${new Date().toLocaleDateString('en-US', { 
-    //         weekday: 'long', 
-    //         year: 'numeric', 
-    //         month: 'long', 
-    //         day: 'numeric' 
-    //       })}</p>
-    //     </div>
-        
-    //     <!-- Analysis Summary Card -->
-    //     <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 15px; margin-bottom: 30px;">
-    //       <h2 style="color: white; margin-bottom: 15px; font-size: 20px;">Analysis Summary</h2>
-    //       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-    //         <div>
-    //           <p style="margin: 5px 0;"><strong>Resume File:</strong> ${analysisResult.fileName}</p>
-    //           <p style="margin: 5px 0;"><strong>Target Position:</strong> ${analysisResult.jobTitle}</p>
-    //         </div>
-    //         <div style="text-align: center;">
-    //           <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
-    //             <span style="font-size: 24px; font-weight: bold;">${matchScore}%</span>
-    //           </div>
-    //           <p style="margin: 10px 0 0 0; font-size: 14px;">Match Score</p>
-    //         </div>
-    //       </div>
-    //     </div>
-        
-    //     <!-- Overall Feedback -->
-    //     <div style="margin-bottom: 30px;">
-    //       <h2 style="color: #1e293b; border-left: 4px solid #f59e0b; padding-left: 15px; font-size: 18px; margin-bottom: 15px;">💡 Overall Feedback</h2>
-    //       <div style="background: #fffbeb; border: 1px solid #fed7aa; border-radius: 10px; padding: 20px;">
-    //         <p style="line-height: 1.7; color: #92400e; margin: 0; font-size: 14px;">${overallFeedback}</p>
-    //       </div>
-    //     </div>
-        
-    //     <!-- Industry Alignment -->
-    //     <div style="margin-bottom: 30px;">
-    //       <h2 style="color: #1e293b; border-left: 4px solid #6366f1; padding-left: 15px; font-size: 18px; margin-bottom: 15px;">📊 Industry Alignment</h2>
-    //       <div style="background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 10px; padding: 20px;">
-    //         <p style="line-height: 1.7; color: #3730a3; margin: 0; font-size: 14px;">${industryAlignment}</p>
-    //       </div>
-    //     </div>
-        
-    //     <!-- Skills Comparison -->
-    //     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 30px;">
-    //       <!-- Strengths -->
-    //       <div>
-    //         <h3 style="color: #059669; margin-bottom: 15px; font-size: 16px; display: flex; align-items: center;">
-    //           <span style="background: #059669; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-size: 12px;">✓</span>
-    //           Your Strengths
-    //         </h3>
-    //         <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 15px;">
-    //           <ul style="padding-left: 0; list-style: none; margin: 0;">
-    //             ${presentSkills.map(skill => `
-    //               <li style="margin-bottom: 8px; color: #065f46; font-size: 13px; display: flex; align-items: center;">
-    //                 <span style="color: #10b981; margin-right: 8px;">•</span>${skill}
-    //               </li>
-    //             `).join('')}
-    //           </ul>
-              
-    //           <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #a7f3d0;">
-    //             <h4 style="color: #059669; margin-bottom: 10px; font-size: 14px;">🏆 Strength Areas</h4>
-    //             <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-    //               ${strengthAreas.map(area => `
-    //                 <span style="background: #d1fae5; color: #047857; padding: 4px 10px; border-radius: 15px; font-size: 11px; border: 1px solid #a7f3d0;">${area}</span>
-    //               `).join('')}
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-          
-    //       <!-- Areas for Improvement -->
-    //       <div>
-    //         <h3 style="color: #dc2626; margin-bottom: 15px; font-size: 16px; display: flex; align-items: center;">
-    //           <span style="background: #dc2626; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; margin-right: 10px; font-size: 12px;">!</span>
-    //           Areas for Improvement
-    //         </h3>
-    //         <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 15px;">
-    //           <ul style="padding-left: 0; list-style: none; margin: 0;">
-    //             ${missingSkills.map(skill => `
-    //               <li style="margin-bottom: 8px; color: #991b1b; font-size: 13px; display: flex; align-items: center;">
-    //                 <span style="color: #ef4444; margin-right: 8px;">•</span>${skill}
-    //               </li>
-    //             `).join('')}
-    //           </ul>
-              
-    //           <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #fecaca;">
-    //             <h4 style="color: #dc2626; margin-bottom: 10px; font-size: 14px;">⏰ Experience Gaps</h4>
-    //             <ul style="padding-left: 0; list-style: none; margin: 0;">
-    //               ${experienceGaps.map(gap => `
-    //                 <li style="margin-bottom: 6px; color: #991b1b; font-size: 12px; display: flex; align-items: flex-start;">
-    //                   <span style="color: #f97316; margin-right: 8px; margin-top: 2px;">•</span>
-    //                   <span>${gap}</span>
-    //                 </li>
-    //               `).join('')}
-    //             </ul>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-        
-    //     <!-- Recommendations -->
-    //     <div style="margin-bottom: 30px;">
-    //       <h2 style="color: #1e293b; border-left: 4px solid #8b5cf6; padding-left: 15px; font-size: 18px; margin-bottom: 20px;">✨ Actionable Recommendations</h2>
-          
-    //       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-    //         <!-- Improvement Priorities -->
-    //         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 15px;">
-    //           <h3 style="color: #166534; margin-bottom: 12px; font-size: 14px;">📈 Top Improvement Priorities</h3>
-    //           <ol style="padding-left: 20px; margin: 0; color: #166534;">
-    //             ${improvementPriority.map((item, index) => `
-    //               <li style="margin-bottom: 8px; font-size: 12px; line-height: 1.5;">${item}</li>
-    //             `).join('')}
-    //           </ol>
-    //         </div>
-            
-    //         <!-- Implementation Suggestions -->
-    //         <div style="background: #fefce8; border: 1px solid #fde68a; border-radius: 10px; padding: 15px;">
-    //           <h3 style="color: #92400e; margin-bottom: 12px; font-size: 14px;">⚡ Implementation Suggestions</h3>
-    //           <ol style="padding-left: 20px; margin: 0; color: #92400e;">
-    //             ${suggestions.map((suggestion, index) => `
-    //               <li style="margin-bottom: 8px; font-size: 12px; line-height: 1.5;">${suggestion}</li>
-    //             `).join('')}
-    //           </ol>
-    //         </div>
-    //       </div>
-          
-    //       <!-- Next Steps -->
-    //       <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 20px;">
-    //         <h3 style="color: #1d4ed8; margin-bottom: 12px; font-size: 14px;">🎯 Next Steps</h3>
-    //         <ul style="padding-left: 0; list-style: none; margin: 0;">
-    //           ${nextSteps.map(step => `
-    //             <li style="margin-bottom: 8px; color: #1e40af; font-size: 12px; line-height: 1.5; display: flex; align-items: flex-start;">
-    //               <span style="color: #3b82f6; margin-right: 8px; margin-top: 2px;">•</span>
-    //               <span>${step}</span>
-    //             </li>
-    //           `).join('')}
-    //         </ul>
-    //       </div>
-    //     </div>
-        
-    //     <!-- Keyword Analysis -->
-    //     <div style="margin-bottom: 30px;">
-    //       <h2 style="color: #1e293b; border-left: 4px solid #06b6d4; padding-left: 15px; font-size: 18px; margin-bottom: 20px;">🔍 Keyword Analysis</h2>
-          
-    //       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-    //         <!-- Found Keywords -->
-    //         <div>
-    //           <h3 style="color: #059669; margin-bottom: 12px; font-size: 14px; display: flex; align-items: center;">
-    //             <span style="color: #10b981; margin-right: 8px;">✓</span>
-    //             Keywords Found in Resume
-    //           </h3>
-    //           <div style="background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; padding: 15px;">
-    //             <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-    //               ${keywordMatches.matched.map(keyword => `
-    //                 <span style="background: #d1fae5; color: #047857; padding: 4px 8px; border-radius: 12px; font-size: 11px; border: 1px solid #a7f3d0;">${keyword}</span>
-    //               `).join('')}
-    //             </div>
-    //           </div>
-    //         </div>
-            
-    //         <!-- Missing Keywords -->
-    //         <div>
-    //           <h3 style="color: #dc2626; margin-bottom: 12px; font-size: 14px; display: flex; align-items: center;">
-    //             <span style="color: #ef4444; margin-right: 8px;">✗</span>
-    //             Missing Keywords
-    //           </h3>
-    //           <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 15px;">
-    //             <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-    //               ${keywordMatches.missing.map(keyword => `
-    //                 <span style="background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 12px; font-size: 11px; border: 1px solid #fecaca;">${keyword}</span>
-    //               `).join('')}
-    //             </div>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     </div>
-        
-    //     <!-- Footer -->
-    //     <div style="text-align: center; margin-top: 50px; padding-top: 25px; border-top: 2px solid #e2e8f0;">
-    //       <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px;">
-    //         <h3 style="color: white; margin: 0 0 10px 0; font-size: 16px;">🚀 MatchMySkill AI Resume Analyzer</h3>
-    //         <p style="margin: 5px 0; font-size: 12px; opacity: 0.9;">Your AI-powered career enhancement partner</p>
-    //         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px; font-size: 11px; opacity: 0.8;">
-    //           <span>Report Generated: ${new Date().toLocaleDateString()}</span>
-    //           <span>Analysis ID: ${Date.now()}</span>
-    //           <span>Match Score: ${matchScore}%</span>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // `;
-    
-    // const opt = {
-    //   margin: [0.5, 0.5, 0.5, 0.5],
-    //   filename: `Resume_Analysis_${analysisResult.fileName.replace(/\.[^/.]+$/, "")}_${new Date().toISOString().split('T')[0]}.pdf`,
-    //   image: { type: 'jpeg', quality: 0.98 },
-    //   html2canvas: { 
-    //     scale: 2, 
-    //     useCORS: true,
-    //     letterRendering: true,
-    //     allowTaint: true,
-    //     backgroundColor: '#ffffff'
-    //   },
-    //   jsPDF: { 
-    //     unit: 'in', 
-    //     format: 'letter', 
-    //     orientation: 'portrait',
-    //     compress: true
-    //   },
-    //   pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-    // };
-
-
-    // Create PDF content
 // Create PDF content
 const element = document.createElement('div');
 element.innerHTML = `
@@ -1109,30 +1228,30 @@ const opt = {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+        <div className="absolute top-20 left-20 w-40 h-40 sm:w-72 sm:h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-56 h-56 sm:w-96 sm:h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 sm:w-80 sm:h-80 bg-indigo-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
-      {/* Navigation */}
+            {/* Navigation */}
       <nav className="relative z-10  border-b border-white/10 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
+        <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-2">
           <div className="flex items-center gap-3">
             <div className="rounded-2xl overflow-hidden ">
   <img 
   src="/logo4.png" 
   alt="Logo" 
-  className="w-24 h-24 object-contain"
+  className="w-16 h-16 sm:w-24 sm:h-24 object-contain"
 />
 </div>
             <div>
-              <span className="text-white font-bold text-2xl">MatchMySkill</span>
-              <p className="text-indigo-200 text-sm">AI Resume Analyzer</p>
+              <span className="text-white font-bold text-xl sm:text-2xl">MatchMySkill</span>
+              <p className="text-indigo-200 text-xs sm:text-sm">AI Resume Analyzer</p>
             </div>
           </div>
           <button 
             onClick={() => setCurrentPage('home')}
-            className="flex items-center gap-2 text-white/80 hover:text-white transition-colors bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20"
+            className="hidden sm:flex items-center gap-2 text-white/80 hover:text-white transition-colors bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20"
           >
             <ArrowLeft size={18} />
             New Analysis
@@ -1140,28 +1259,27 @@ const opt = {
         </div>
       </nav>
 
-      <div className="relative z-10 container mx-auto px-6 py-12">
-        <div className="max-w-6xl mx-auto">
+      <div className="relative z-10 container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div className="max-w-full sm:max-w-4xl lg:max-w-6xl mx-auto">
           {/* Header Section */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 mb-8">
+          <div className="text-center mb-10 sm:mb-16">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 sm:px-6 sm:py-3 mb-4 sm:mb-8">
               <Sparkles className="text-yellow-400" size={20} />
-              <span className="text-white/90 font-medium">Analysis Complete</span>
+              <span className="text-white/90 font-medium text-sm sm:text-base">Analysis Complete</span>
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent mb-4 sm:mb-6">
               Your Resume Analysis
             </h1>
             
-            <div className="text-xl text-gray-300 mb-8">
+            <div className="text-base sm:text-xl text-gray-300 mb-6 sm:mb-10">
               Resume: <span className="text-indigo-300 font-medium">{analysisResult.fileName}</span>
               <br />
               Job: <span className="text-purple-300 font-medium">{analysisResult.jobTitle}</span>
             </div>
           </div>
-
           {/* Match Score Hero Card */}
-          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-12 mb-12 text-center">
+          <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-6 sm:p-12 mb-12 text-center">
             <div className="flex items-center justify-center mb-8">
               <div className="relative w-64 h-64">
                 <svg className="w-full h-full" viewBox="0 0 100 100">
@@ -1231,7 +1349,7 @@ const opt = {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8">
               <h3 className="font-bold text-white mb-6 flex items-center gap-3 text-2xl">
-                <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-2 rounded-xl">
+                <div className="bg-gradient-to-r from-green-500 to-emerald-500 p-2 rounded-lg">
                   <CheckCircle className="text-white" size={24} />
                 </div>
                 Your Strengths
