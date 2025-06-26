@@ -17,14 +17,28 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
+// const storage = new CloudinaryStorage({
+//   cloudinary: cloudinary,
+//   params: {
+//     folder: 'resumes',
+//     resource_type: 'raw', // IMPORTANT for PDFs
+//     allowed_formats: ['pdf']
+//   }
+// });
+
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: {
-    folder: 'resumes',
-    resource_type: 'raw', // IMPORTANT for PDFs
-    allowed_formats: ['pdf']
+  params: async (req, file) => {
+    const originalName = file.originalname.replace(/\.[^/.]+$/, ""); // remove file extension
+    return {
+      folder: 'resumes',
+      public_id: originalName, // use original file name
+      resource_type: 'raw',
+      allowed_formats: ['pdf']
+    };
   }
 });
+
 
 const upload = multer({ storage });
 
