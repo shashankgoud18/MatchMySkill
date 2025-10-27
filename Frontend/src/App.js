@@ -6,7 +6,6 @@ import html2pdf from 'html2pdf.js';
 
 
 const ResumeGapAnalyzer = () => {
-  //const GEMINI_API_KEY = 'AIzaSyDR8vod7jqk5Pzbx2Um2844ehX5cAkjEmQ';
   const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY || '';
   console.log('Gemini API Key:', GEMINI_API_KEY);
 
@@ -21,12 +20,27 @@ const ResumeGapAnalyzer = () => {
   const [extractionProgress, setExtractionProgress] = useState(0);
   const [selectedProvider, setSelectedProvider] = useState('openai');
   const fileInputRef = useRef(null);
+  const [jobDescription, setJobDescription] = useState('');
 
-//   const [jobDescription, setJobDescription] = useState(() => {
-//   return localStorage.getItem('jobDescription') || "";
-// });
 
-const [jobDescription, setJobDescription] = useState('');
+  // Add this helper function near the top of your component
+const extractJobTitle = (jobDescription) => {
+  const lines = jobDescription.split('\n');
+  const firstLine = lines[0]?.trim();
+  
+  // Try to extract job title from common patterns
+  if (firstLine && firstLine.length < 100) {
+    return firstLine;
+  }
+  
+  // Look for "Job Title:" or similar patterns
+  const titleMatch = jobDescription.match(/(?:job title|position|role):\s*([^\n]+)/i);
+  if (titleMatch) {
+    return titleMatch[1].trim();
+  }
+  
+  return "Target Position";
+};
 
   // Toast notification system
   const showToast = (message, type = 'success') => {
@@ -98,10 +112,10 @@ const [jobDescription, setJobDescription] = useState('');
 };
 
   // Helper function to extract job title from description
-  const extractJobTitle = (description) => {
-    const lines = description.split('\n');
-    return lines[0].trim() || 'Target Position';
-  };
+  // const extractJobTitle = (description) => {
+  //   const lines = description.split('\n');
+  //   return lines[0].trim() || 'Target Position';
+  // };
 
   // Toast Component
   const Toast = ({ message, type }) => (
@@ -117,173 +131,6 @@ const [jobDescription, setJobDescription] = useState('');
       </button>
     </div>
   );
-
-// const HomePage = () => {
-//     return (
-//       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 relative overflow-hidden">
-//         {/* Animated background elements */}
-//         <div className="absolute inset-0">
-//           <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-//           <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-//           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
-//         </div>
-
-//         {/* Navigation */}
-//         <nav className="relative z-10 border-b border-white/10 backdrop-blur-sm">
-//           <div className="max-w-7xl mx-auto flex justify-between items-center">
-//             <div className="flex items-center gap-3">
-//               {/* <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-3 rounded-2xl shadow-lg">
-//                 <Brain className="text-white" size={28} />
-//               </div> */}
-//             <div className="rounded-2xl overflow-hidden ">
-//   <img 
-//   src="/logo4.png" 
-//   alt="Logo" 
-//   className="w-24 h-24 object-contain"
-// />
-// </div>
-//               <div>
-//                 <span className="text-white font-bold text-2xl">MatchMySkill</span>
-//                 <p className="text-indigo-200 text-sm">AI Resume Analyzer</p>
-//               </div>
-//             </div>
-//             <div className="hidden md:flex items-center gap-8">
-//               <a href="#features" className="text-white/80 hover:text-white transition-colors">Features</a>
-//               <a href="#features" className="text-white/80 hover:text-white transition-colors">How it Works</a>
-//               {/* <a href="#pricing" className="text-white/80 hover:text-white transition-colors">Pricing</a> */}
-//             </div>
-//           </div>
-//         </nav>
-
-//         <div className="relative z-10 container mx-auto px-6 py-16">
-//           <div className="text-center max-w-6xl mx-auto">
-//             {/* Hero Section */}
-//             <div className="mb-16">
-//               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 mb-8">
-//                 <Sparkles className="text-yellow-400" size={20} />
-//                 <span className="text-white/90 font-medium">Powered by Advanced AI</span>
-//               </div>
-              
-//               <h1 className="text-7xl md:text-8xl font-bold bg-gradient-to-r from-white via-indigo-200 to-purple-200 bg-clip-text text-transparent mb-8 leading-tight">
-//                 Match Your
-//                 <br />
-//                 <span className="text-indigo-400">Dream Job</span>
-//               </h1>
-              
-//               <p className="text-2xl md:text-3xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
-//                 AI-powered resume analysis that reveals exactly what recruiters want.
-//                 <br />
-//                 <span className="text-indigo-300 font-medium">Close skill gaps. Land interviews. Get hired.</span>
-//               </p>
-
-//               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-12">
-//                 <button
-//                   onClick={() => setCurrentPage('upload')}
-//                   className="group bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:via-purple-500 hover:to-indigo-500 text-white px-10 py-5 rounded-2xl font-semibold text-xl flex items-center gap-4 transition-all duration-300 shadow-2xl hover:shadow-indigo-500/25 hover:scale-105"
-//                 >
-//                   <Rocket size={24} />
-//                   Start Free Analysis
-//                   <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-//                 </button>
-                
-//                 <button className="flex items-center gap-3 text-white/80 hover:text-white group">
-//                   <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-//                     <Play size={20} />
-//                   </div>
-//                   <span className="font-medium">Watch Demo</span>
-//                 </button>
-//               </div>
-
-//               <div className="flex items-center justify-center gap-8 text-white/60 text-sm">
-//                 <div className="flex items-center gap-2">
-//                   <CheckCircle size={16} className="text-green-400" />
-//                   Free to use
-//                 </div>
-//                 <div className="flex items-center gap-2">
-//                   <Shield size={16} className="text-blue-400" />
-//                   Privacy protected
-//                 </div>
-//                 <div className="flex items-center gap-2">
-//                   <Zap size={16} className="text-yellow-400" />
-//                   Instant results
-//                 </div>
-//               </div>
-//             </div>
-
-//             {/* Stats Section */}
-//             <div className="grid md:grid-cols-4 gap-8 mb-20">
-//               {
-//          [
-//   { icon: Star, value: "Free", label: "Always Available", color: "text-yellow-400" },
-//   // { icon: Clock, value: "24/7", label: "Access Anytime", color: "text-blue-400" },
-//  { icon: Brain, value: "AI-Powered", label: "Smart Analysis", color: "text-blue-400" },
-//  { icon: FileCheck, value: "ATS", label: "Optimized Format", color: "text-purple-400" },
-//   { icon: Shield, value: "Secure", label: "Data Handling", color: "text-purple-400" }
-// ]
-
-//               .map((stat, index) => (
-//                 <div key={index} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:bg-white/10 transition-all duration-300 group">
-//                   <stat.icon className={`${stat.color} mx-auto mb-4 group-hover:scale-110 transition-transform`} size={40} />
-//                   <div className="text-4xl font-bold text-white mb-2">{stat.value}</div>
-//                   <div className="text-gray-300">{stat.label}</div>
-//                 </div>
-//               ))}
-//             </div>
-
-//             {/* Features Section */}
-//             <div id="features" className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-12 mb-20">
-//               <h3 className="text-4xl font-bold text-white mb-16">How MatchMySkill Works</h3>
-//               <div className="grid md:grid-cols-3 gap-12">
-//                 {[
-//                   {
-//                     icon: Upload,
-//                     title: "Smart Upload",
-//                     description: "Upload your resume in any format. Our AI extracts and analyzes every detail with 99.9% accuracy using advanced OCR and NLP.",
-//                     gradient: "from-green-500 to-emerald-600"
-//                   },
-//                   {
-//                     icon: Brain,
-//                     title: "AI Analysis",
-//                     description: "Our advanced AI analyzes 300+ factors including skills, experience, keywords, and industry trends to provide comprehensive insights.",
-//                     gradient: "from-indigo-500 to-purple-600"
-//                   },
-//                   {
-//                     icon: Target,
-//                     title: "Actionable Results",
-//                     description: "Get personalized recommendations, priority improvements, and strategic advice tailored to your target role and industry.",
-//                     gradient: "from-orange-500 to-red-600"
-//                   }
-//                 ].map((feature, index) => (
-//                   <div key={index} className="relative group">
-//                     <div className={`bg-gradient-to-br ${feature.gradient} w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-2xl group-hover:scale-110 transition-transform duration-300`}>
-//                       <feature.icon className="text-white" size={36} />
-//                     </div>
-//                     <h4 className="font-bold text-white mb-6 text-2xl">{feature.title}</h4>
-//                     <p className="text-gray-300 leading-relaxed text-lg">{feature.description}</p>
-//                   </div>
-//                 ))}
-//               </div>
-//             </div>
-
-//             {/* CTA Section */}
-//             <div className="text-center">
-//               <h3 className="text-4xl font-bold text-white mb-6">Ready to Land Your Dream Job?</h3>
-//               <p className="text-xl text-gray-300 mb-10">Join thousands of professionals who've improved their resumes with MatchMySkill</p>
-              
-//               <button
-//                 onClick={() => setCurrentPage('upload')}
-//                 className="group bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:via-purple-500 hover:to-indigo-500 text-white px-12 py-6 rounded-2xl font-bold text-xl flex items-center gap-4 mx-auto transition-all duration-300 shadow-2xl hover:shadow-indigo-500/25 hover:scale-105"
-//               >
-//                 <Sparkles size={24} />
-//                 Get Your Free Analysis
-//                 <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     );
-//   };
 
 const HomePage = () => {
   return (
@@ -477,6 +324,7 @@ const UploadPage = ({
   const handleAnalyze = async () => {
     if (!resumeText.trim() || !localJobDescription.trim()) {
       showToast('Please provide resume content and job description', 'error');
+      console.log('Please provide resume content and job descriptio')
       return;
     }
 
@@ -485,10 +333,12 @@ const UploadPage = ({
     try {
       if (!GEMINI_API_KEY) {
         showToast('Gemini API key is not configured', 'error');
+        console.log('error')
         return;
       }
 
       const result = await analyzeWithGemini(resumeText, localJobDescription, GEMINI_API_KEY);
+      console.log('result',result)
 
       const fullResult = {
         id: Date.now(),
@@ -498,12 +348,12 @@ const UploadPage = ({
         provider: selectedProvider === 'openai' ? 'OpenAI GPT-4' : 'Google Gemini',
         ...result,
       };
+      console.log('fullResult',fullResult)
 
       setAnalysisResult(fullResult);
       setAnalysisHistory(prev => [fullResult, ...prev]);
       setCurrentPage('results');
       showToast('Analysis completed successfully!');
-
       setResumeText('');
       setUploadedFile(null);
       setExtractionProgress(0);
