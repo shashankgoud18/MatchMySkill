@@ -195,8 +195,6 @@ Provide analysis in the specified JSON format.`,
       }
     );
 
-    console.log('Gemini Response status:', response.status);
-
     if (!response.ok) {
       const errorText = await response.text();
       console.error('Gemini API Error Response:', errorText);
@@ -210,15 +208,12 @@ Provide analysis in the specified JSON format.`,
     }
 
     const data = await response.json();
-    console.log('Gemini Raw response:', data);
-
     if (!data.candidates || data.candidates.length === 0) {
       console.error('Unexpected Gemini response:', data);
       throw new Error('Gemini returned an empty or invalid response. Please check your input or model name.');
     }
 
     const candidate = data.candidates[0];
-    console.log('🔍 Full Gemini candidate:', JSON.stringify(candidate, null, 2));
 
     // --- Robust text extraction logic ---
     let content = '';
@@ -238,8 +233,6 @@ Provide analysis in the specified JSON format.`,
       content = candidate.text;
     }
 
-    console.log('🧩 Extracted Gemini content:', content);
-
     if (!content) {
       console.error('Gemini response did not include text:', data);
       throw new Error('Gemini returned an empty or invalid response. Please check your input or model name.');
@@ -251,8 +244,8 @@ Provide analysis in the specified JSON format.`,
       const cleanContent = content.replace(/```json|```/g, '').trim();
       analysisResult = JSON.parse(cleanContent);
     } catch (parseError) {
-      console.warn('⚠️ JSON parse failed, attempting fallback extraction...');
-      console.log('Gemini returned content:', content);
+     // console.warn('⚠️ JSON parse failed, attempting fallback extraction...');
+     // console.log('Gemini returned content:', content);
 
       const jsonMatch = content.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
@@ -277,10 +270,10 @@ Provide analysis in the specified JSON format.`,
       throw new Error('Invalid analysis result format from Gemini');
     }
 
-    console.log('✅ Gemini analysis completed successfully');
+   // console.log('✅ Gemini analysis completed successfully');
     return analysisResult;
   } catch (error) {
-    console.error('❌ Gemini analysis error:', error);
+    console.error('Gemini analysis error:', error);
     throw error;
   }
 };
