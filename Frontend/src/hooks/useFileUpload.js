@@ -8,8 +8,12 @@ import { API_CONFIG, FILE_CONFIG, TOAST_MESSAGES } from '../constants/config';
  */
 export const useFileUpload = (onSuccess, onError, showToast) => {
   const handleFileUpload = useCallback(async (file) => {
+    const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+    const isSupportedType = FILE_CONFIG.SUPPORTED_TYPES.includes(file.type);
+    const isSupportedExtension = FILE_CONFIG.SUPPORTED_EXTENSIONS.includes(fileExtension);
+
     // Validate file type
-    if (!FILE_CONFIG.SUPPORTED_TYPES.includes(file.type)) {
+    if (!isSupportedType && !isSupportedExtension) {
       const error = TOAST_MESSAGES.INVALID_FILE_TYPE;
       onError?.(error);
       showToast?.(error, 'error');
@@ -29,14 +33,16 @@ export const useFileUpload = (onSuccess, onError, showToast) => {
     try {
       // Extract content based on file type
       let extractedContent;
-      if (file.type === 'application/pdf') {
+      if (file.type === 'application/pdf' || fileExtension === '.pdf') {
         extractedContent = await extractPDFContent(file);
       } else if (
         file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-        file.type === 'application/msword'
+        file.type === 'application/msword' ||
+        fileExtension === '.docx' ||
+        fileExtension === '.doc'
       ) {
         extractedContent = await extractDOCXContent(file);
-      } else if (file.type === 'text/plain') {
+      } else if (file.type === 'text/plain' || fileExtension === '.txt') {
         extractedContent = await extractTXTContent(file);
       } else {
         throw new Error(TOAST_MESSAGES.INVALID_FILE_TYPE);
@@ -96,13 +102,15 @@ async function uploadToBackend(file, extractedText) {
 
     clearTimeout(uploadTimeout);
 
-    if (!response.ok) {
+    let data;
+    try {
+      data = await response.json();
+    } catch (_) {
       throw new Error(`Server error: ${response.status}`);
     }
 
-    const data = await response.json();
-    if (!data.success) {
-      throw new Error(data.error || TOAST_MESSAGES.UPLOAD_FAILED);
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || data.message || TOAST_MESSAGES.UPLOAD_FAILED);
     }
 
     return data;

@@ -15,6 +15,11 @@ const App = () => {
   const { toasts, showToast, hideToast } = useToast();
 
   const handleStartAnalysis = () => {
+    // Ensure section hash fragments from homepage nav are not kept in the URL.
+    if (window.location.hash) {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
+    }
+
     setCurrentPage('upload');
   };
 

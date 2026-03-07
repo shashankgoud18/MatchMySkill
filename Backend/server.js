@@ -4,16 +4,10 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-
 dotenv.config();
 
 // Validate required environment variables
 const requiredEnvVars = [
-  'CLOUDINARY_CLOUD_NAME',
-  'CLOUDINARY_API_KEY',
-  'CLOUDINARY_API_SECRET',
   'GEMINI_API_KEY'
 ];
 
@@ -30,7 +24,7 @@ console.log('✅ All required environment variables are configured.');
 const app = express();
 
 // CORS configuration - restrict to frontend origin in production
-const allowedOrigins = process.env.NODE_ENV === 'production' 
+const allowedOrigins = process.env.NODE_ENV === 'production'
   ? [process.env.FRONTEND_URL || 'https://match-my-skill-plby.vercel.app']
   : ['http://localhost:3000'];
 
@@ -55,33 +49,8 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET
-});
-
-// const storage = new CloudinaryStorage({
-//   cloudinary: cloudinary,
-//   params: {
-//     folder: 'resumes',
-//     resource_type: 'raw', // IMPORTANT for PDFs
-//     allowed_formats: ['pdf']
-//   }
-// });
-
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: async (req, file) => {
-    const originalName = file.originalname.replace(/\.[^/.]+$/, ""); // remove file extension
-    return {
-      folder: 'resumes',
-      public_id: originalName, // use original file name
-      resource_type: 'raw',
-      allowed_formats: ['pdf', 'docx', 'doc', 'txt'] // Support multiple formats
-    };
-  }
-});
+// Use memory storage for Multer. We don't need to permanently save files, just process them in memory.
+const storage = multer.memoryStorage();
 
 // Multer configuration with file size limits
 const upload = multer({
@@ -95,13 +64,18 @@ const upload = multer({
       'application/pdf',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
       'application/msword',
-      'text/plain'
+      'text/plain',
+      'text/csv', // Sometimes txt comes through as this
+      '' // Sometimes Windows returns empty string for txt/docx
     ];
 
-    if (allowedMimes.includes(file.mimetype)) {
+    const fileExtension = '.' + file.originalname.split('.').pop().toLowerCase();
+    const allowedExtensions = ['.pdf', '.docx', '.doc', '.txt'];
+
+    if (allowedMimes.includes(file.mimetype) || allowedExtensions.includes(fileExtension)) {
       cb(null, true);
     } else {
-      cb(new Error(`Invalid file type. Allowed types: PDF, DOCX, DOC, TXT`), false);
+      cb(new Error(`Invalid file type. Allowed types: PDF, DOCX, DOC, TXT. Received: ${file.mimetype}`), false);
     }
   }
 });
@@ -118,13 +92,13 @@ app.post('/upload', upload.single('resume'), (req, res) => {
     }
 
     // Log file details (without sensitive content)
-    console.log(`[${new Date().toISOString()}] File uploaded: ${req.file.originalname}`);
+    console.log(`[${new Date().toISOString()}] File uploaded to memory: ${req.file.originalname}`);
 
     res.json({
       success: true,
       message: 'Upload successful',
-      url: req.file.path, // Cloudinary URL
-      public_id: req.file.filename,
+      url: 'memory-only', // No physical URL if it's stored in memory
+      public_id: req.file.originalname,
       fileName: req.file.originalname
     });
   } catch (error) {
