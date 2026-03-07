@@ -45,10 +45,10 @@ MatchMySkill is an advanced AI-powered resume analysis tool that helps job seeke
 ### Prerequisites
 - Node.js (v14 or higher)
 - npm or yarn
-- Google Gemini API key
-- Cloudinary account
+- Google Gemini API key (https://makersuite.google.com/app/apikey)
+- Cloudinary account (https://cloudinary.com)
 
-### Installation
+### Local Development
 
 1. **Clone the repository**
 ```bash
@@ -62,22 +62,47 @@ cd resume-gap-analyzer
 cd Frontend
 npm install
 
-# Backend
-cd ../Backend
+# Backend (in another terminal)
+cd Backend
 npm install
 ```
 
 3. **Environment Setup**
 ```bash
 # Frontend/.env
-REACT_APP_GEMINI_API_KEY=your_gemini_api_key
+REACT_APP_GEMINI_API_KEY=your_gemini_api_key_here
+REACT_APP_BACKEND_URL=http://localhost:10000
 
 # Backend/.env
+NODE_ENV=development
+PORT=10000
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
-PORT=10000
+FRONTEND_URL=http://localhost:3000
 ```
+
+4. **Start Development Servers**
+```bash
+# Terminal 1 - Backend
+cd Backend
+npm install
+npm start
+# Should see: "Server running on port 10000"
+
+# Terminal 2 - Frontend
+cd Frontend
+npm start
+# Should open http://localhost:3000 automatically
+```
+
+### Production Deployment
+
+For deploying to Vercel (Frontend) and Render (Backend), see the comprehensive guide in [DEPLOYMENT.md](./DEPLOYMENT.md).
+
+**Quick Links:**
+- [Deployment Guide](./DEPLOYMENT.md) - Step-by-step production deployment
+- [Changes Summary](./CHANGES.md) - All production-ready improvements made
 
 4. **Run the application**
 ```bash
