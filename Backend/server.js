@@ -25,8 +25,14 @@ const app = express();
 
 // CORS configuration - restrict to frontend origin in production
 const allowedOrigins = process.env.NODE_ENV === 'production'
-  ? [process.env.FRONTEND_URL || 'https://match-my-skill-plby.vercel.app']
+  ? [
+      'https://matchmyskill.vercel.app',
+      'https://match-my-skill-plby.vercel.app',
+      process.env.FRONTEND_URL
+    ].filter(Boolean)
   : ['http://localhost:3000'];
+
+console.log('Allowed CORS origins:', allowedOrigins);
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -35,10 +41,11 @@ app.use(cors({
     
     if (allowedOrigins.indexOf(origin) === -1) {
       // Log the blocked origin for debugging
-      console.warn(`CORS blocked origin: ${origin}`);
-      console.warn(`Allowed origins: ${allowedOrigins.join(', ')}`);
+      console.warn(`❌ CORS blocked origin: ${origin}`);
+      console.warn(`✅ Allowed origins: ${allowedOrigins.join(', ')}`);
       callback(new Error('Not allowed by CORS'));
     } else {
+      console.log(`✅ CORS allowed origin: ${origin}`);
       callback(null, true);
     }
   },
