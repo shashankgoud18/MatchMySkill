@@ -1,6 +1,5 @@
 import React from 'react';
 import { X, AlertCircle, CheckCircle, Info } from 'lucide-react';
-import { UI_CONFIG } from '../../constants/config';
 
 const Toast = ({ toasts = [], onClose }) => {
   const getIconAndColor = (type) => {

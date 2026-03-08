@@ -12,7 +12,7 @@ const App = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState(null);
 
-  const { toasts, showToast, hideToast } = useToast();
+  const { toasts, hideToast } = useToast();
 
   const handleStartAnalysis = () => {
     // Ensure section hash fragments from homepage nav are not kept in the URL.

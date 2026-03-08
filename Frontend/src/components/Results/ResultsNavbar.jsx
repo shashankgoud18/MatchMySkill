@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Download, FileCheck } from 'lucide-react';
+import { ArrowLeft, Download } from 'lucide-react';
 
 const ResultsNavbar = ({ onBack, generatePDFReport }) => {
     return (

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { analyzeWithGemini } from '../utils/api';
-import { TOAST_MESSAGES, API_CONFIG } from '../constants/config';
+import { TOAST_MESSAGES } from '../constants/config';
 
 /**
  * Custom hook for handling resume analysis

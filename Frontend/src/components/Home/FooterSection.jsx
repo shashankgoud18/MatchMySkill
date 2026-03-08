@@ -39,13 +39,13 @@ const FooterSection = ({ onStartAnalysis }) => {
                                 The ultimate AI-powered resume parser engineered to secure your next interview by perfectly matching job descriptions.
                             </p>
                             <div className="flex gap-4">
-                                <a href="https://x.com/shashankgoud_19" target='_blank' className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-500/20 hover:text-brand-500 text-gray-400 transition-colors">
+                                <a href="https://x.com/shashankgoud_19" target='_blank' rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-500/20 hover:text-brand-500 text-gray-400 transition-colors">
                                     <Twitter className="w-4 h-4" />
                                 </a>
-                                <a href="https://www.linkedin.com/in/shashank-goud18" target='_blank' className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-500/20 hover:text-brand-500 text-gray-400 transition-colors">
+                                <a href="https://www.linkedin.com/in/shashank-goud18" target='_blank' rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-500/20 hover:text-brand-500 text-gray-400 transition-colors">
                                     <Linkedin className="w-4 h-4" />
                                 </a>
-                                <a href="https://github.com/shashankgoud18/" target='_blank' className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-500/20 hover:text-brand-500 text-gray-400 transition-colors">
+                                <a href="https://github.com/shashankgoud18/" target='_blank' rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-500/20 hover:text-brand-500 text-gray-400 transition-colors">
                                     <Github className="w-4 h-4" />
                                 </a>
                             </div>
@@ -55,30 +55,30 @@ const FooterSection = ({ onStartAnalysis }) => {
                         <div>
                             <h4 className="text-white font-bold mb-6 tracking-wide">Product</h4>
                             <ul className="space-y-4 text-sm text-gray-400">
-                                <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
-                                <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
-                                <li><a href="#" className="hover:text-white transition-colors">How it Works</a></li>
-                                <li><a href="#" className="hover:text-white transition-colors">Release Notes</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">Features</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">Pricing</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">How it Works</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">Release Notes</a></li>
                             </ul>
                         </div>
 
                         <div>
                             <h4 className="text-white font-bold mb-6 tracking-wide">Resources</h4>
                             <ul className="space-y-4 text-sm text-gray-400">
-                                <li><a href="#" className="hover:text-white transition-colors">Resume Templates</a></li>
-                                <li><a href="#" className="hover:text-white transition-colors">Career Blog</a></li>
-                                <li><a href="#" className="hover:text-white transition-colors">Cover Letter Guide</a></li>
-                                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">Resume Templates</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">Career Blog</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">Cover Letter Guide</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">Help Center</a></li>
                             </ul>
                         </div>
 
                         <div>
                             <h4 className="text-white font-bold mb-6 tracking-wide">Company</h4>
                             <ul className="space-y-4 text-sm text-gray-400">
-                                <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-                                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-                                <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-                                <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">About Us</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">Contact</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">Terms of Service</a></li>
+                                <li><a href="#!" className="hover:text-white transition-colors">Privacy Policy</a></li>
                             </ul>
                         </div>
 

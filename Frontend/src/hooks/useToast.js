@@ -1,5 +1,4 @@
 import { useState, useCallback } from 'react';
-import { UI_CONFIG } from '../constants/config';
 
 /**
  * Custom hook for managing toast notifications
@@ -8,23 +7,23 @@ import { UI_CONFIG } from '../constants/config';
 export const useToast = () => {
   const [toasts, setToasts] = useState([]);
 
-  const showToast = useCallback((message, type = 'info', duration = UI_CONFIG.TOAST_DURATION) => {
+  const hideToast = useCallback((id) => {
+    setToasts(prev => prev.filter(toast => toast.id !== id));
+  }, []);
+
+  const showToast = useCallback((message, type = 'info', duration = 4000) => {
     const id = Date.now();
     const newToast = { id, message, type };
-    
+
     setToasts(prev => [...prev, newToast]);
 
     if (duration > 0) {
       setTimeout(() => {
-        hideToast(id);
+        setToasts(prev => prev.filter(toast => toast.id !== id));
       }, duration);
     }
 
     return id;
-  }, []);
-
-  const hideToast = useCallback((id) => {
-    setToasts(prev => prev.filter(toast => toast.id !== id));
   }, []);
 
   const clearToasts = useCallback(() => {
