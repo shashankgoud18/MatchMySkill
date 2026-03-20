@@ -21,9 +21,9 @@ app.get('/', (req, res) => {
 });
 
 app.get('/health', (req, res) => {
-  res.send("Everything is working fine!");
 	res.status(200).json({
 		status: 'OK',
+		message: 'MatchMySkill backend is live!',
 		uptime: process.uptime(),
 		timestamp: Date.now(),
 	});
@@ -35,6 +35,6 @@ app.use(analysisRoutes);
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-	console.log(`Server running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`✅ Server running on http://0.0.0.0:${PORT}`);
 });
