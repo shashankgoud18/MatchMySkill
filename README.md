@@ -160,4 +160,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact 📧
 
 Your Name - Shashank.
-Project Link: [https://github.com/yourusername/resume-gap-analyzer](https://matchmyskill.vercel.app/)
+Project Link: [https://matchmyskill.vercel.app/]
